@@ -1,2 +1,17 @@
-header 
-	a(href="/") FPD
+nav.header
+	ul
+		li
+			a(href="/") FPD
+	ul
+		if loggedIn
+			li 
+				a(href="/posts/upload") 업로드
+			li
+				a(href="/users/profile/:id") 프로필
+			li 
+				a(href="/users/logout") 로그아웃
+		else
+			li 
+				a(href="/login") 로그인
+			li
+				a(href="/join") 회원가입
