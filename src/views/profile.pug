@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+	ul 
+		li 
+			span 이름 | #{user.name}
+		li 
+			span 이메일 | #{user.email}
+		li 
+			span 닉네임 | #{user.nickname}
+	if (loggedInUser.id === user.id)
+		a(href=`${loggedInUser.id}/edit`)
+			button 수정

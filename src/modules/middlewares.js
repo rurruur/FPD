@@ -9,12 +9,33 @@ export const findAndLocalsUser = (req, res, next) => {
 	next();
 };
 
+export const publicOnly = (req, res, next) => {
+	if (Boolean(req.session.loggedIn) === false)
+		next();
+	else
+		return res.redirect('/');
+};
+
+export const checkLoggedIn = (req, res, next) => {
+	if (req.session.loggedIn)
+		next();
+	else
+		return res.status(403).redirect('/login');
+};
+
+export const checkEmailAuth = (req, res, next) => {
+	if (req.session.user.email_auth)
+		next();
+	else
+		return res.render('check-email');
+};
+
 export const sendAuthMail = (req, res, next) => {
 	const encrypter = crypto.createCipheriv('aes-256-cbc', process.env.CRYPTO_KEY, process.env.CRYPTO_IV);
 	const cryptoEmail =  encrypter.update(req.body.email, 'utf8', 'hex') + encrypter.final('hex');
 
 	let emailTemplate;
-	ejs.renderFile(path.resolve(process.cwd()+'/src/authMail.ejs'), { authUrl: `http://localhost:4242/users/auth/${cryptoEmail}` }, function (err, data) {
+	ejs.renderFile(path.resolve(process.cwd()+'/src/authMail.ejs'), { authUrl: `http://localhost:4242/auth/${cryptoEmail}` }, function (err, data) {
 		if (err) {
 			console.log(err);
 		} else {
@@ -46,18 +67,4 @@ export const sendAuthMail = (req, res, next) => {
 	});
 	transporter.close();
 	next();
-};
-
-export const checkMail = async (req, res) => {
-	const decrypter = crypto.createDecipheriv('aes-256-cbc', process.env.CRYPTO_KEY, process.env.CRYPTO_IV);
-	const email =  decrypter.update(req.params.mail, 'hex', 'utf8') + decrypter.final('utf8');
-	// email로 유저 찾아서 auth = y 업데이트
-	User.findOneAndUpdate({ email }, { email_auth: 'y'}, null, function(err, doc) {
-		if (err) {
-			console.log(err);
-		} else {
-			console.log(doc);
-		}
-	});
-	res.redirect('/login');
 };

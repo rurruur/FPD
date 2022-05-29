@@ -7,9 +7,9 @@ nav
 			li 
 				a(href="/posts/upload") 업로드
 			li
-				a(href="/users/profile/:id") 프로필
+				a(href=`/users/${loggedInUser.id}`) 프로필
 			li 
-				a(href="/users/logout") 로그아웃
+				a(href="/logout") 로그아웃
 		else
 			li 
 				a(href="/login") 로그인

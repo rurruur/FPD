@@ -5,6 +5,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import './db';
 import * as router from './routers/routes';
+import { findAndLocalsUser } from './modules/middlewares';
 
 const app = express();
 const logger = morgan('dev');
@@ -20,6 +21,7 @@ app.use(session({
 	store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
 }));
 app.use('/static', express.static('assets'));
+app.use(findAndLocalsUser);
 app.use(router.path, router.router);
 
 app.listen(process.env.PORT, () => console.log(`🚀 Server listening on http://localhost:${process.env.PORT}`));

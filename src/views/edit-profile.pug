@@ -1,0 +1,11 @@
+extends layout 
+
+block content 
+	form(action="", method="patch") 
+		label(for="email") 이메일
+		input(type="text", name="email", id="email", placeholder="이메일", required, value=loggedInUser.email)
+		label(for="name") 이름
+		input(type="text", name="name", id="name", placeholder="이름", required, value=loggedInUser.name)
+		label(for="nickname") 별명
+		input(type="text", name="nickname", id="nickname", placeholder="별명", required, value=loggedInUser.nickname)
+		button(type="submit") 저장

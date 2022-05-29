@@ -5,5 +5,5 @@ let loggedInUser = {
 }
 
 export const showHome = (req, res) => {
-	res.render('home', { pageTitle: 'Home', loggedIn: false, loggedInUser });
+	return res.render('home', { pageTitle: 'Home' });
 };
