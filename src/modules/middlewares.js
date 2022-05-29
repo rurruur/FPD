@@ -3,6 +3,12 @@ import crypto from 'crypto';
 import ejs from 'ejs';
 import path from 'path';
 
+export const findAndLocalsUser = (req, res, next) => {
+	res.locals.loggedIn = Boolean(req.session.loggedIn);
+	res.locals.loggedInUser = req.session.user || {};
+	next();
+};
+
 export const sendAuthMail = (req, res, next) => {
 	const encrypter = crypto.createCipheriv('aes-256-cbc', process.env.CRYPTO_KEY, process.env.CRYPTO_IV);
 	const cryptoEmail =  encrypter.update(req.body.email, 'utf8', 'hex') + encrypter.final('hex');

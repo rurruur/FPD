@@ -1,6 +1,7 @@
 import User from "../models/User";
 import crypto from 'crypto';
 import fetch from 'node-fetch';
+import { getUserSessionFormat } from "../modules/util";
 
 export const showLogin = (req, res) => {
 	return res.render('login', { pageTitle: '로그인', loggedIn: false });
@@ -48,45 +49,17 @@ export const authMail = async (req, res) => {
 	res.redirect('/login');
 };
 
-export const getAuthCode = (req, res) => {
-	const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_KEY}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code`;
-	res.redirect(kakaoUrl);
-};
-
-export const kakaoCallback = async (req, res) => {
-	const { code } = req.query;
-	const data = `grant_type=authorization_code&client_id=${process.env.KAKAO_KEY}&client_secret=${process.env.KAKAO_SECRET}&redirect_uri=${process.env.REDIRECT_URI}&code=${code}`;
-	console.log(req.query.code);
-	const response = await (await fetch('https://kauth.kakao.com/oauth/token?' + data, {
-		method: 'post',
-		headers: { 'Content-type': 'application/x-www-form-urlencoded;charset=utf-8' },
-	})).json();
-	console.log(response);
-	if ('access_token' in response) {
-		const profile = (await (await fetch('https://kapi.kakao.com/v2/user/me', {
-			headers: {
-				Authorization: `Bearer ${response.access_token}`,
-          		'Content-type': 'application/json',
-			}
-		})).json()).kakao_account;
-		if (!profile.has_email || !profile.is_email_valid || !profile.is_email_verified) {
-			// log
-			return res.redirect('/login');
-		}
-		console.log(profile.email, profile.profile.nickname);
-		const foundUser = await User.findOne({ email: profile.email });
-		console.log(foundUser);
-		if (foundUser === null) {
-			// create user
-		} else if (foundUser.social_login === false) {
-			res.redirect('/login');
-		} else if (foundUser.email_auth === false) {
-			// 이메일 인증을 완료해주세요.
-		} else {
-			// 세션에 추가 후 로그인 처리
-		}
-	} else {
-		// log
+export const postLogin = async (req, res) => {
+	const { email, password } = req.body;
+	const foundUser = await User.findOne({ email });
+	if (foundUser === null) {
 		return res.redirect('/login');
 	}
+	const hashedPass = crypto.createHmac('sha512', foundUser.salt).update(password).digest('hex');
+	if (hashedPass !== foundUser.password) {
+		return res.redirect('/login');
+	}
+	req.session.loggedIn = true;
+	req.session.user = getUserSessionFormat(foundUser);
+	return res.redirect('/');
 };
