@@ -4,7 +4,7 @@
 - Node.js
 - Express
 - MongoDB
-- ?
+- Pug
 
 ### 목차
 - [기능](#기능)
