@@ -69,11 +69,11 @@ export const postLogin = catchAsync(async (req, res) => {
 	const { email, password } = req.body;
 	const foundUser = await User.findOne({ email });
 	if (foundUser === null) {
-		return res.redirect('/login', { errorMsg: '아이디 또는 비밀번호가 틀렸습니다.' });
+		return res.render('login', { errorMsg: '아이디 또는 비밀번호가 틀렸습니다.' });
 	}
 	const hashedPass = crypto.createHmac('sha512', foundUser.salt).update(password).digest('hex');
 	if (hashedPass !== foundUser.password) {
-		return res.redirect('/login', { errorMsg: '아이디 또는 비밀번호가 틀렸습니다.' });
+		return res.render('login', { errorMsg: '아이디 또는 비밀번호가 틀렸습니다.' });
 	}
 	req.session.loggedIn = true;
 	req.session.user = getUserSessionFormat(foundUser);
