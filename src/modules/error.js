@@ -1,13 +1,11 @@
 import logger from "./logger";
 
 export const errorHandler = (err, req, res, next) => {
-	const { errorObj } = req;
-	console.log(errorObj);
-	if (errorObj === undefined) {
-		logger.error(err);
-		res.render('404');
-	} else {
-		logger.error(errorObj);
-		res.render('404', { errorMsg: errorObj.message });
-	}
+	const { errorMsg } = req;
+	logger.error(err);
+	res.render('404', { errorMsg });
+};
+
+export const catchAsync = fn => (req, res, next) => {
+	Promise.resolve(fn(req, res, next)).catch(err => next(err));
 };
