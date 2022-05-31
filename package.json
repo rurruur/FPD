@@ -27,7 +27,8 @@
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.7",
     "nodemailer": "^6.7.5",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "tracer": "^1.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",

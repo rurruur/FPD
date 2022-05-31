@@ -2,6 +2,7 @@ import User from "../models/User";
 import crypto from 'crypto';
 import fetch from 'node-fetch';
 import { getUserSessionFormat } from "../modules/util";
+import logger from "../modules/logger";
 
 export const showLogin = (req, res) => {
 	return res.render('login', { pageTitle: '로그인'});
@@ -32,21 +33,35 @@ export const postJoin = async (req, res) => {
 	}
 	const salt = crypto.randomBytes(16).toString('hex');
 	const hashedPass = crypto.createHmac('sha512', salt).update(password).digest('hex');
-	await User.create({
+	const user = await User.create({
 		name,
 		nickname,
 		email,
 		password: hashedPass,
 		salt,
 	});
+	logger.info({
+		type: 'action',
+		message: 'user join',
+		data: { user: user.toJSON() },
+	});
 	return res.render('check-email', { pageTitle: '회원가입'});
 };
 
-export const updateEmailAuth = async (req, res) => {
-	const decrypter = crypto.createDecipheriv('aes-256-cbc', process.env.CRYPTO_KEY, process.env.CRYPTO_IV);
-	const email =  decrypter.update(req.params.email, 'hex', 'utf8') + decrypter.final('utf8');
-	await User.findOneAndUpdate({ email }, { email_auth: true });
-	return res.redirect('/login');
+export const updateEmailAuth = async (req, res, next) => {
+	try {
+		const decrypter = crypto.createDecipheriv('aes-256-cbc', process.env.CRYPTO_KEY, process.env.CRYPTO_IV);
+		const email =  decrypter.update(req.params.email, 'hex', 'utf8') + decrypter.final('utf8');
+		await User.findOneAndUpdate({ email }, { email_auth: true });
+		return res.redirect('/login');
+	} catch (err) {
+		req.errorObj = {
+			type: 'auth error',
+			message: '이메일 인증 주소 오류 - 잘못된 주소 형식입니다.',
+			data: { err },
+		};
+		next(err);
+	}
 };
 
 export const postLogin = async (req, res) => {
@@ -61,6 +76,11 @@ export const postLogin = async (req, res) => {
 	}
 	req.session.loggedIn = true;
 	req.session.user = getUserSessionFormat(foundUser);
+	logger.info({
+		type: 'action',
+		message: 'user login',
+		data: { user: foundUser.toJSON() },
+	});
 	return res.redirect('/');
 };
 
