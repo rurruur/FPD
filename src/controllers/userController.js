@@ -1,9 +1,12 @@
 import User from "../models/User";
 import crypto from 'crypto';
-import fetch from 'node-fetch';
-import { getUserSessionFormat } from "../modules/util";
+import mailer from 'nodemailer';
+import ejs from 'ejs';
+import path from 'path';
 import logger from "../modules/logger";
 import { catchAsync } from "../modules/error";
+import { getUserSessionFormat } from "../modules/util";
+
 
 export const showLogin = (req, res) => {
 	return res.render('login', { pageTitle: '로그인'});
@@ -46,7 +49,7 @@ export const postJoin = catchAsync(async (req, res) => {
 		message: 'user join',
 		data: { user: user.toJSON() },
 	});
-	return res.render('check-email', { pageTitle: '회원가입'});
+	return res.redirect('/login');
 });
 
 export const updateEmailAuth = catchAsync(async (req, res, next) => {
@@ -62,7 +65,8 @@ export const updateEmailAuth = catchAsync(async (req, res, next) => {
 		message: 'user email auth',
 		data: { user: user.toJSON() },
 	});
-	return res.redirect('/login');
+	req.session.user.email_auth = true;
+	return res.redirect('/');
 });
 
 export const postLogin = catchAsync(async (req, res) => {
@@ -105,4 +109,44 @@ export const showEditProfile = (req, res) => {
 export const logout = (req, res) => {
 	req.session.destroy();
 	return res.redirect('/');
+};
+
+export const sendAuthMail = (req, res) => {
+	const { email } = req.session.user;
+	const encrypter = crypto.createCipheriv('aes-256-cbc', process.env.CRYPTO_KEY, process.env.CRYPTO_IV);
+	const cryptoEmail =  encrypter.update(email, 'utf8', 'hex') + encrypter.final('hex');
+
+	let emailTemplate;
+	ejs.renderFile(path.resolve(process.cwd()+'/src/authMail.ejs'), { authUrl: `http://localhost:4242/auth/${cryptoEmail}` }, function (err, data) {
+		if (err) {
+			console.log(err);
+		} else {
+			emailTemplate = data;
+		}
+	});
+	const transporter = mailer.createTransport({
+		service: 'naver',
+		host: 'smtp.naver.com',
+		port: 465,
+		auth: {
+			user: process.env.NODEMAILER_USER,
+			pass: process.env.NODEMAILER_PASS,
+		},
+	});
+	const mailOptions = {
+		from: process.env.NODEMAILER_USER,
+		to: email,
+		subject: '서둘러 회원가입을 완료해주세요~',
+		html: emailTemplate,
+	};
+	
+	transporter.sendMail(mailOptions, function (err, info) {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log('Successfully Send Email.', info.response);
+		}
+	});
+	transporter.close();
+	return res.render('check-email', { pageTitle: '이메일 확인' });
 };
