@@ -52,6 +52,7 @@
 **src/controllers/userController.js - postJoin**
 > 가입 폼에서 받은 정보로 회원가입 처리
 
+---
 
 ### 로그인
 - 이메일 계정과 비밀번호로 로그인
@@ -67,6 +68,7 @@
 **src/controllers/userController.js - postLogin**
 > 이메일로 유저 검색, 해당 유저의 솔트로 비밀번호 해시 후 DB에 저장되어 있는 해시값과 비교하여 로그인 처리
 
+---
 
 ### 이메일 인증
 - 로그인 상태에서 이메일 인증 확인
