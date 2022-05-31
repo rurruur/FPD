@@ -2,6 +2,7 @@ extends layout
 
 block content 
 	.login-form
+		small.error-msg #{errorMsg}
 		form(action="", method="post")
 			label(for="email") 이메일
 			input(type="text", name="email", id="email", placeholder="이메일")
