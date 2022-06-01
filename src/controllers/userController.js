@@ -154,3 +154,34 @@ export const sendAuthMail = (req, res) => {
 export const showCheckEmail = (req, res) => {
 	return res.render('check-email', { pageTitle: '이메일 확인' });
 };
+
+export const saveUserChange = catchAsync(async (req, res) => {
+	const { email, name, nickname } = req.body;
+	const user = await User.findById(req.session.user.id);
+	// 변경된 정보 없는 경우
+	if (user.nickname === nickname && user.name === name && user.email === email) {
+		return res.redirect(`/users/${user.id}`);
+	}
+	const usedNickname = await User.findOne({ nickname });
+	if (usedNickname !== null && user.nickname !== nickname) {
+		return res.render('edit-profile', { pageTitle: '프로필 수정', errorMsg: '사용중인 닉네임입니다.' });
+	}
+	const usedEmail = await User.findOne({ email });
+	if (usedEmail !== null && user.email !== email) {
+		return res.render('edit-profile', { pageTitle: '프로필 수정', errorMsg: '사용중인 이메일입니다.' });
+	}
+	if (user.email !== email) {
+		user.email_auth = false;
+		user.email = email;
+	}
+	user.name = name;
+	user.nickname = nickname;
+	await user.save();
+	logger.info({
+		type: 'action',
+		message: 'user info change',
+		data: { user: user.toJSON() },
+	});
+	req.session.user = getUserSessionFormat(user);
+	return res.redirect(`/users/${user.id}`);
+});

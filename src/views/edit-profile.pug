@@ -1,7 +1,8 @@
 extends layout 
 
 block content 
-	form(action="", method="patch") 
+	small.error-msg #{errorMsg}
+	form(action="", method="post") 
 		label(for="email") 이메일
 		input(type="text", name="email", id="email", placeholder="이메일", required, value=loggedInUser.email)
 		label(for="name") 이름
