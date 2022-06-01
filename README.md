@@ -12,6 +12,7 @@
 	- [로그인](#로그인)
 	- [이메일 인증](#이메일-인증)
 - [트러블 슈팅](#트러블-슈팅)
+	- [node-fetch 에러](#node-fetch-error-errrequireesm-require-of-es-module--from--not-supported)
 
 ### 구현 상황
 - [x] 이메일로 회원가입
@@ -88,3 +89,39 @@
 
 
 ## 트러블 슈팅
+
+### node-fetch Error [ERR_REQUIRE_ESM]: require() of ES Module ~ from ~ not supported.
+
+
+`import fetch from 'node-fetch';`
+
+fetch를 추가하자 아래와 같은 에러가 발생했다.
+
+```
+Error [ERR_REQUIRE_ESM]: require() of ES Module [node-fetch 경로] from [import한 위치] not supported.
+Instead change the require of index.js in [import 위치] to a dynamic import() which is available in all CommonJS modules.
+```
+아마 바벨로 인해 import문이 require로 변환돼서 이런 에러가 뜬 것 같은데,
+검색을 해보니 방법이 두가지 정도 있었다.
+
+1. node-fetch 삭제 후 v2로 재다운로드
+```
+npm uninstall node-fetch
+npm install node-fetch@2
+```
+2. package.json의 타입 변경
+```
+{
+	...
+    "type": "module",
+    ...
+}
+```
+
+CommonJS
+
+> `node-fetch` from v3 is an ESM-only module - you are not able to import it with require(). If you cannot switch to ESM, please use v2 which remains compatible with CommonJS. Critical bug fixes will continue to be published for v2.
+
+(출처 - https://www.npmjs.com/package/node-fetch)
+
+v2도 버그 수정을 계속 한다고 하니.. 편한대로 사용하면 될 듯 하다.
