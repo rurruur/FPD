@@ -148,5 +148,9 @@ export const sendAuthMail = (req, res) => {
 		}
 	});
 	transporter.close();
+	return res.redirect('check-email');
+};
+
+export const showCheckEmail = (req, res) => {
 	return res.render('check-email', { pageTitle: '이메일 확인' });
 };

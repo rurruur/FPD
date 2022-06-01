@@ -22,5 +22,5 @@ export const checkEmailAuth = (req, res, next) => {
 	if (req.session.user.email_auth)
 		next();
 	else
-		return res.redirect('/users/auth');
+		return res.redirect('/users/check-email');
 };
