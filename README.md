@@ -11,7 +11,7 @@
 	- [회원가입](#회원가입)
 	- [로그인](#로그인)
 	- [이메일 인증](#이메일-인증)
-- [트러블 슈팅](#트러블-슈팅)
+- [에러 처리](#에러-처리)
 	- [node-fetch 에러](#node-fetch-error-errrequireesm-require-of-es-module--from--not-supported)
 
 ### 구현 상황
@@ -88,7 +88,7 @@
 > 주소의 이메일 부분 복호화하여 유저 검색, email_auth true로 업데이트
 
 
-## 트러블 슈팅
+## 에러 처리
 
 ### node-fetch Error [ERR_REQUIRE_ESM]: require() of ES Module ~ from ~ not supported.
 
