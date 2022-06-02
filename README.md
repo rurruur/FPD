@@ -28,9 +28,8 @@
 - [x] 프로필 화면
 - [x] 프로필 수정
 	- [x] 이메일 변경 시 email_auth = false
-- [ ] 게시글 작성
-- [ ] 게시글 삭제
-- [ ] 게시글 수정
+- [x] 게시글 작성
+- [x] 게시글 삭제
 - [ ] 게시글 검색
 
 ## 기능
@@ -87,6 +86,22 @@
 **src/controllers/userController.js - updateEmailAuth**
 > 주소의 이메일 부분 복호화하여 유저 검색, email_auth true로 업데이트
 
+---
+
+### 게시물 삭제
+
+#### 흐름
+1. 게시물 삭제 버튼 클릭
+2. 프론트에서 `DELETE /posts/:post-id`로 fetch
+3. 게시물 컨트롤러에서 삭제 처리
+4. 홈으로 리다이렉트
+
+#### 주요 함수 상세
+**src/client/js/main.js - deletePost**
+> 삭제 버튼 클릭 시 `DELETE /posts/:post-id` 요청 보냄, 삭제 완료 되면 홈으로 이동
+
+**src/controllers/postController.js - deletePost**
+> 주소의 파라미터에서 id값 얻은 후 게시물 삭제
 
 ## 에러 처리
 
