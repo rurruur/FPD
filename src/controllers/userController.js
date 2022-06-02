@@ -108,7 +108,7 @@ export const showEditProfile = (req, res) => {
 
 export const logout = (req, res) => {
 	req.session.destroy();
-	return res.redirect('/');
+	return res.redirect('/login');
 };
 
 export const sendAuthMail = (req, res) => {
