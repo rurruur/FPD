@@ -1,4 +1,7 @@
 extends layout 
+include mixins/post
 
 block content 
 	h1 Home
+	each post in posts 
+		+post(post)

@@ -1,5 +1,5 @@
 import express from 'express';
-import { showHome } from '../controllers/homeController';
+import { showHome } from '../controllers/postControllers';
 import { showJoin, showLogin, postJoin, postLogin, updateEmailAuth, logout } from '../controllers/userController';
 import { checkEmailAuth, checkLoggedIn, publicOnly } from '../modules/middlewares';
 

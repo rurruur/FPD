@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+	.post
+		h3=post.title
+		if post.writer
+			a(href=`/users/${post.writer.id}`)
+				small=post.writer.nickname
+		else 
+			small 탈퇴한 사용자
+		br
+		small=post.createdAt
+		p=post.content

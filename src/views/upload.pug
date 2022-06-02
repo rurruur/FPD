@@ -1,0 +1,9 @@
+extends layout 
+
+block content 
+	form(action="", method="post") 
+		label(for="title") 제목
+		input(type="text", name="title", id="title", placeholder="제목", required)
+		label(for="content") 내용
+		textarea(name="content", cols="30", rows="10", id="content", required) 
+		button(type="submit") 등록

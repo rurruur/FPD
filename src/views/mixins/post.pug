@@ -1,0 +1,11 @@
+mixin post(info)
+	div.post-block
+		a(href=`/posts/${info.id}`)
+			h5=info.title
+		if info.writer
+			a(href=`/users/${info.writer.id}`)
+				small=info.writer.nickname
+		else 
+			small 탈퇴한 사용자
+		br
+		small=info.createdAt
