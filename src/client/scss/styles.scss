@@ -26,7 +26,7 @@ main {
   	// width: 100%;
   	// margin: 0 auto;
   	// margin-top: 50px;
-	  border: 1px solid white;
+	//   border: 1px solid white;
 }
 
 .login-form {
@@ -37,10 +37,17 @@ main {
 
 nav {
 	padding: 10px;
-	border: 1px solid darkturquoise;
+	// border: 1px solid darkturquoise;
 }
 
 footer {
 	height: 40px;
-	border: 1px solid red;
+	// border: 1px solid red;
+}
+
+.post-block {
+	margin: 15px 0;
+	h5 {
+		margin: 0;
+	}
 }
