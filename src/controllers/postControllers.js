@@ -28,3 +28,9 @@ export const showPost = catchAsync(async (req, res) => {
 	console.log(post);
 	return res.render('post', { pageTitle: post.title, post });
 });
+
+export const deletePost = catchAsync(async (req, res) => {
+	const { id } = req.params;
+	await Post.deleteOne({ _id: id });
+	res.end();
+});

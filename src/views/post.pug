@@ -11,3 +11,5 @@ block content
 		br
 		small=post.createdAt
 		p=post.content
+	if (post.writer && loggedInUser.id === String(post.writer.id))
+		button.post__del-btn 삭제
