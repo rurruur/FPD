@@ -13,6 +13,7 @@
 	- [이메일 인증](#이메일-인증)
 - [에러 처리](#에러-처리)
 	- [node-fetch 에러](#node-fetch-error-errrequireesm-require-of-es-module--from--not-supported)
+	- [DELETE 메소드 관련](#delete-메소드-관련)
 
 ### 구현 상황
 - [x] 이메일로 회원가입
@@ -140,3 +141,62 @@ CommonJS
 (출처 - https://www.npmjs.com/package/node-fetch)
 
 v2도 버그 수정을 계속 한다고 하니.. 편한대로 사용하면 될 듯 하다.
+
+---
+
+### DELETE 메소드 관련
+<br>
+
+#### HTML에서는 DELETE 요청을 보낼 수 없다고?
+처음에 폼을 이용해서 DELETE 요청을 보내려고 했는데, 뭔가 작동이 안 되어서 검색해보니 html에서는 get과 post 요청만 가능하다는 것을 알게 되었다.
+
+그래서 어떻게 DELETE 메소드를 사용할 수 있을지 생각한 결과.
+
+프론트에서 fetch로 보내면 되겠다는 결론에 도달했다.
+
+이렇게 해도 되는 건가 싶지만 일단 작동은 잘 하니 뿌듯하다.
+
+<br>
+
+#### 왜 자꾸 DELETE 메소드로 리다이렉트가 되는가
+```js
+// src/client/js/main.js - deletePost
+
+const deletePost = async () => {
+	await fetch(location.pathname, { method: "delete" });
+};
+
+// src/controllers/postController.js - deletePost
+export const deletePost = catchAsync(async (req, res) => {
+	const { id } = req.params;
+	await Post.deleteOne({ _id: id });
+	return res.redirect('/');
+});
+```
+처음엔 위처럼 코드를 작성했는데, `DELETE /` 이렇게 리다이렉트가 되는 것을 발견했다.
+
+`res.redirect(303, '/')`
+
+이렇게 303 코드를 사용하면 GET 메소드로 리다이렉트가 된다고 한다.
+
+그런데 `GET /` 요청이 출력만 되고 실제로 브라우저에서는 리다이렉트가 발생하지 않는다.
+
+그래서 하는 수 없이.. 백에서는 상태 코드 200을 날려주고, 프론트 쪽에서 주소를 바꿔줬다.
+
+```js
+// 프론트 js
+const postDelBtn = document.querySelector('.post__del-btn');
+
+const deletePost = async () => {
+	await fetch(location.pathname, { method: "delete" });  // DELETE 요청
+	window.location.href = location.origin;  // 홈으로 이동
+};
+
+if (postDelBtn)
+	postDelBtn.addEventListener('click', deletePost);
+```
+
+참고>
+
+https://stackoverflow.com/questions/24750169/expressjs-res-redirect-after-delete-request
+https://stackoverflow.com/questions/33214717/why-post-redirects-to-get-and-put-redirects-to-put
