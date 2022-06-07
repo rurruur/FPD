@@ -32,5 +32,6 @@ export const showPost = catchAsync(async (req, res) => {
 export const deletePost = catchAsync(async (req, res) => {
 	const { id } = req.params;
 	await Post.deleteOne({ _id: id });
-	res.end();
+	return res.send(200);
+	// return res.redirect(303, '/');
 });

@@ -4,7 +4,6 @@ const postDelBtn = document.querySelector('.post__del-btn');
 
 const deletePost = async () => {
 	await fetch(location.pathname, { method: "delete" });
-	console.log(location);
 	window.location.href = location.origin;
 };
 
