@@ -25,6 +25,8 @@ export const postUpload = catchAsync(async (req, res) => {
 export const showPost = catchAsync(async (req, res) => {
 	const { id } = req.params;
 	const post = await Post.findById(id).populate('writer', 'nickname');
+	post.views += 1;
+	await post.save();
 	console.log(post);
 	return res.render('post', { pageTitle: post.title, post });
 });

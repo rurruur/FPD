@@ -5,6 +5,7 @@ const postSchema = new mongoose.Schema({
 	content: { type: String, required: true, trim: true },
 	writer: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
 	createdAt: { type: Date, default: Date.now },
+	views: { type: Number, default: 0 }
 });
 
 const Post = mongoose.model('Post', postSchema);
