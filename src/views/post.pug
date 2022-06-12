@@ -10,6 +10,8 @@ block content
 			small 탈퇴한 사용자
 		br
 		small=post.createdAt
+		br
+		small 조회수 #{post.views}
 		p=post.content
 	if (post.writer && loggedInUser.id === String(post.writer.id))
 		button.post__del-btn 삭제
