@@ -25,9 +25,11 @@ export const postUpload = catchAsync(async (req, res) => {
 export const showPost = catchAsync(async (req, res) => {
 	const { id } = req.params;
 	const post = await Post.findById(id).populate('writer', 'nickname');
-	post.views += 1;
-	await post.save();
-	console.log(post);
+	if (req.cookies[id] == undefined | req.cookies[id] != req.session.user.id) {
+		res.cookie(id, req.session.user.id, { maxAge: 720000 });
+		post.views += 1;
+		await post.save();
+	}
 	return res.render('post', { pageTitle: post.title, post });
 });
 
