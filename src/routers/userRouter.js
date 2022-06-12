@@ -7,5 +7,5 @@ export const router = express.Router();
 // id - a string of 12 bytes or a string of 24 hex characters or an integer
 router.get('/auth', sendAuthMail);
 router.get('/check-email', showCheckEmail);
-router.route('/:id/edit').get(showEditProfile).post(saveUserChange);
-router.get('/:id', showProfile);
+router.route('/:id([0-9a-f]{24})/edit').get(showEditProfile).post(saveUserChange);
+router.get('/:id([0-9a-f]{24})', showProfile);

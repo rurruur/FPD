@@ -5,4 +5,4 @@ export const path = '/posts';
 export const router = express.Router();
 
 router.route('/upload').get(showUpload).post(postUpload);
-router.route('/:id').get(showPost).delete(deletePost);
+router.route('/:id([0-9a-f]{24})').get(showPost).delete(deletePost);
