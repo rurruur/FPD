@@ -1,15 +1,17 @@
 doctype doctype html
-html(lang="en")
+html(lang="en" data-theme="dark")
 	head
 		meta(charset="UTF-8")
 		meta(http-equiv="X-UA-Compatible", content="IE=edge")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		title FPD - #{pageTitle}
 		link(rel="stylesheet", href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css")
+		link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
 		link(rel="stylesheet", href="/static/css/styles.css")
 	body
 		include partials/header
 		main.container
 			block content
 		include partials/footer
-		script(src="/static/js/main.js")
+	script(src="/static/js/main.js")
+	block script

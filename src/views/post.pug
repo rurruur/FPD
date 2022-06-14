@@ -9,9 +9,30 @@ block content
 		else 
 			small 탈퇴한 사용자
 		br
-		small=post.createdAt
+		small.createdAt=post.createdAt
 		br
 		small 조회수 #{post.views}
 		p=post.content
 	if (post.writer && loggedInUser.id === String(post.writer.id))
 		button.post__del-btn 삭제
+	div.post__comments
+		form.post__comment-form#commentForm
+			textarea(cols="30", rows="10", placeholder="Write a nice commment...")
+			button 등록
+		ul
+			each comment in comments.reverse()
+				li.post__comment
+					i.fas.fa-comment
+					| 
+					if comment.writer
+						a(href=`/users/${comment.writer.id}`)
+							small=comment.writer.nickname
+					else 
+						small 탈퇴한 사용자
+					br
+					small.createdAt=comment.createdAt
+					br
+					span=comment.text
+
+block script
+	script(src="/static/js/post.js")
