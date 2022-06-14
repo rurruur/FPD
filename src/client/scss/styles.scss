@@ -40,6 +40,10 @@ nav {
 	// border: 1px solid darkturquoise;
 }
 
+textarea {
+	resize: none;
+}
+
 footer {
 	height: 40px;
 	// border: 1px solid red;
@@ -50,4 +54,40 @@ footer {
 	h5 {
 		margin: 0;
 	}
+}
+
+.post__comments {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 20px;
+	.post__comment-form {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		textarea {
+			height: 100px;
+		}
+		button {
+			align-self: flex-end;
+			width: 100px;
+			font-size: 15px;
+			text-align: center;
+			margin: 0;
+		}
+	}
+	.post__comment {
+		padding: 10px;
+		border-radius: 10px;
+		margin-bottom: 20px;
+		list-style: none;
+	}
+	ul {
+		padding: 0;
+	}
+}
+
+.createdAt {
+	opacity: 0.5;
 }
