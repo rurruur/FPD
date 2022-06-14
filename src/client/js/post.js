@@ -5,8 +5,10 @@ const commentBtn = commentForm.querySelector('button');
 const commentDelBtn = document.querySelector('.comment__del-btn');
 
 const deletePost = async () => {
-	await fetch(location.pathname, { method: 'delete' });
-	window.location.href = location.origin;
+	if (confirm("정말 삭제하시겠읍니까?")) {
+		await fetch(location.pathname, { method: 'delete' });
+		window.location.href = location.origin;
+	}
 };
 
 const handleSubmit = async event => {
@@ -20,12 +22,14 @@ const handleSubmit = async event => {
 };
 
 const deleteComment = async (event) => {
-	const { id } = commentDelBtn.dataset;
-	const postId = location.pathname;
-	await fetch(`/api${postId}/comment/${id}`, {
-		method: 'delete',
-	});
-	window.location.reload();
+	if (confirm("정말 삭제하시겠읍니까?")) {
+		const { id } = commentDelBtn.dataset;
+		const postId = location.pathname;
+		await fetch(`/api${postId}/comment/${id}`, {
+			method: 'delete',
+		});
+		window.location.reload();
+	}
 };
 
 if (postDelBtn)
