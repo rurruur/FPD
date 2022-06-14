@@ -33,6 +33,9 @@ block content
 					small.createdAt=comment.createdAt
 					br
 					span=comment.text
+					br
+					if (comment.writer && loggedInUser.id === String(comment.writer.id))
+						button(data-id=comment.id).comment__del-btn 삭제
 
 block script
 	script(src="/static/js/post.js")

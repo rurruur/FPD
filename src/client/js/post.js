@@ -2,6 +2,7 @@ const postDelBtn = document.querySelector('.post__del-btn');
 const commentForm = document.getElementById('commentForm');
 const textarea = commentForm.querySelector('textarea');
 const commentBtn = commentForm.querySelector('button');
+const commentDelBtn = document.querySelector('.comment__del-btn');
 
 const deletePost = async () => {
 	await fetch(location.pathname, { method: 'delete' });
@@ -18,7 +19,18 @@ const handleSubmit = async event => {
 	});
 };
 
+const deleteComment = async (event) => {
+	const { id } = commentDelBtn.dataset;
+	const postId = location.pathname;
+	await fetch(`/api${postId}/comment/${id}`, {
+		method: 'delete',
+	});
+	window.location.reload();
+};
+
 if (postDelBtn)
 	postDelBtn.addEventListener('click', deletePost);
 if (commentForm)
 	commentForm.addEventListener('submit', handleSubmit);
+if (commentDelBtn)
+	commentDelBtn.addEventListener('click', deleteComment);

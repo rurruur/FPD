@@ -54,3 +54,9 @@ export const registerComment = catchAsync(async (req, res) => {
 	});
 	return res.sendStatus(201);
 });
+
+export const deleteComment = catchAsync(async (req, res) => {
+	const { commentId } = req.params;
+	await Comment.findByIdAndDelete(commentId);
+	return res.sendStatus(200);
+});
