@@ -207,3 +207,30 @@ if (postDelBtn)
 
 https://stackoverflow.com/questions/24750169/expressjs-res-redirect-after-delete-request
 https://stackoverflow.com/questions/33214717/why-post-redirects-to-get-and-put-redirects-to-put
+
+---
+
+### MongoDB 연결 에러
+
+서버를 작동시키고 DB 연결을 기다리는데 연결 에러가 발생했다.
+
+쉘에서 DB를 켜보니 아래의 에러 메세지가 출력됐다.
+
+```
+MongoDB shell version v5.0.7
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Error: couldn't connect to server 127.0.0.1:27017, connection attempt failed: SocketException: Error connecting to 127.0.0.1:27017 :: caused by :: Connection refused :
+connect@src/mongo/shell/mongo.js:372:17
+@(connect):2:6
+exception: connect failed
+exiting with code 1
+```
+
+소켓 오류임을 알 수 있다. 소켓 파일을 제거하면 정상적으로 동작
+```
+$ sudo rm -rf /tmp/mongodb-27017.sock
+```
+
+참고>
+
+https://stackoverflow.com/questions/63562177/mongod-aborts-on-mac
