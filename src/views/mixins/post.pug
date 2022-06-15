@@ -1,7 +1,7 @@
 mixin post(info)
 	div.post-block
 		a(href=`/posts/${info.id}`)
-			h5=info.title
+			h4=info.title
 		if info.writer
 			a(href=`/users/${info.writer.id}`)
 				small=info.writer.nickname
@@ -10,4 +10,4 @@ mixin post(info)
 		br
 		small.createdAt=info.createdAt
 		br
-		sall 조회수 #{info.views}
+		small 조회수 #{info.views}

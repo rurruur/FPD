@@ -2,40 +2,39 @@ extends layout
 
 block content 
 	.post
-		h3=post.title
-		if post.writer
-			a(href=`/users/${post.writer.id}`)
-				small=post.writer.nickname
-		else 
-			small 탈퇴한 사용자
-		br
-		small.createdAt=post.createdAt
-		br
-		small 조회수 #{post.views}
+		.post__header
+			h4=post.title
+			if (post.writer && loggedInUser.id === String(post.writer.id))
+				button.post__del-btn.post__btn 삭제
+		.meta
+			if post.writer
+				a(href=`/users/${post.writer.id}`)
+					small=post.writer.nickname
+			else 
+				small 탈퇴한 사용자
+			small.createdAt=post.createdAt
+			small 조회수 #{post.views}
 		p=post.content
-	if (post.writer && loggedInUser.id === String(post.writer.id))
-		button.post__del-btn 삭제
 	div.post__comments
 		form.post__comment-form#commentForm
-			textarea(cols="30", rows="10", placeholder="Write a nice commment...")
-			button 등록
+			textarea(cols="30", rows="1", placeholder="댓글을 달아보세요.")
+			button.post__btn 등록
 		ul
 			each comment in comments.reverse()
 				li.post__comment
-					i.fas.fa-comment
-					| 
-					if comment.writer
-						a(href=`/users/${comment.writer.id}`)
-							small=comment.writer.nickname
-					else 
-						small 탈퇴한 사용자
-					br
+					.comment__header
+						i.fas.fa-comment
+						| 
+						if comment.writer
+							a(href=`/users/${comment.writer.id}`)
+								small=comment.writer.nickname
+						else 
+							small 탈퇴한 사용자
+						if (comment.writer && loggedInUser.id === String(comment.writer.id))
+							button(data-id=comment.id).comment__del-btn.post__btn 삭제
 					small.createdAt=comment.createdAt
 					br
 					span=comment.text
-					br
-					if (comment.writer && loggedInUser.id === String(comment.writer.id))
-						button(data-id=comment.id).comment__del-btn 삭제
 
 block script
 	script(src="/static/js/post.js")

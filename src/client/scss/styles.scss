@@ -44,21 +44,31 @@ textarea {
 	resize: none;
 }
 
-footer {
-	height: 40px;
-	// border: 1px solid red;
-}
-
 .post-block {
 	margin: 15px 0;
-	h5 {
+	h4 {
 		margin: 0;
 	}
 }
-
+.post {
+	margin-bottom: 50px;
+	h4 {
+		margin: 10px 0;
+	}
+	p {
+		margin: 10px 0;
+	}
+	.post__header {
+		display: flex;
+		justify-content: space-between;
+	}
+	.meta {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+	}
+}
 .post__comments {
-	display: flex;
-	flex-direction: column;
 	width: 100%;
 	margin: 0 auto;
 	margin-top: 20px;
@@ -66,14 +76,8 @@ footer {
 		display: flex;
 		flex-direction: column;
 		margin: 0;
-		textarea {
-			height: 100px;
-		}
 		button {
 			align-self: flex-end;
-			width: 100px;
-			font-size: 15px;
-			margin: 0;
 		}
 	}
 	.post__comment {
@@ -81,17 +85,27 @@ footer {
 		border-radius: 10px;
 		margin-bottom: 20px;
 		list-style: none;
-		.comment__del-btn {
-			width: 50px;
-			font-size: 15px;
-			padding: 5px 0px;
+		.comment__header {
+			height:fit-content;
+			display: flex;
+			align-items: baseline;
+			small {
+				margin: 0 10px;
+			}
+			button {
+				margin: 0;
+			}
 		}
 	}
 	ul {
 		padding: 0;
 	}
 }
-
 .createdAt {
 	opacity: 0.5;
+}
+.post__btn {
+	width: 50px;
+	font-size: 15px;
+	padding: 5px 0px;
 }
