@@ -15,23 +15,16 @@ export const showJoin = (req, res) => {
 };
 
 export const postJoin = catchAsync(async (req, res) => {
-	const { email, password, password2, name, nickname } = req.body;
-	// 비밀번호 일치 확인
-	if (password !== password2) {
-		const errorMsg = '비밀번호가 일치하지 않습니다.';
-		return res.render('join', { pageTitle: '회원가입', errorMsg});
-	}
+	const { email, password, name, nickname } = req.body;
 	// 가입이 된 이메일인지 확인
-	const foundEmail = await User.exists({ email });
+	const foundEmail = await User.findOne({ email });
 	if (foundEmail !== null) {
-		const errorMsg = '이미 가입된 이메일입니다.';
-		return res.render('join', { pageTitle: '회원가입', errorMsg});
+		return res.status(409).json({ type: 'email', msg: '이미 가입된 이메일입니다.' });
 	}
 	// 별명 존재 여부 확인
-	const foundNick = await User.exists({ nickname });
+	const foundNick = await User.findOne({ nickname });
 	if (foundNick !== null) {
-		const errorMsg = '사용중인 별명입니다.';
-		return res.render('join', { pageTitle: '회원가입', errorMsg});
+		return res.status(409).json({ type: 'nickname', msg: '사용중인 닉네임입니다.' });
 	}
 	const salt = crypto.randomBytes(16).toString('hex');
 	const hashedPass = crypto.createHmac('sha512', salt).update(password).digest('hex');
@@ -48,7 +41,7 @@ export const postJoin = catchAsync(async (req, res) => {
 		data: { user: user.toJSON() },
 	});
 	sendMail(email);
-	return res.redirect('/login');
+	return res.sendStatus(201);
 });
 
 export const updateEmailAuth = catchAsync(async (req, res, next) => {
@@ -64,7 +57,8 @@ export const updateEmailAuth = catchAsync(async (req, res, next) => {
 		message: 'user email auth',
 		data: { user: user.toJSON() },
 	});
-	req.session.user.email_auth = true;
+	if (req.session.user)
+		req.session.user.email_auth = true;
 	return res.redirect('/');
 });
 
@@ -72,11 +66,11 @@ export const postLogin = catchAsync(async (req, res) => {
 	const { email, password } = req.body;
 	const foundUser = await User.findOne({ email });
 	if (foundUser === null) {
-		return res.render('login', { errorMsg: '아이디 또는 비밀번호가 틀렸습니다.' });
+		return res.sendStatus(404);
 	}
 	const hashedPass = crypto.createHmac('sha512', foundUser.salt).update(password).digest('hex');
 	if (hashedPass !== foundUser.password) {
-		return res.render('login', { errorMsg: '아이디 또는 비밀번호가 틀렸습니다.' });
+		return res.sendStatus(404);
 	}
 	req.session.loggedIn = true;
 	req.session.user = getUserSessionFormat(foundUser);
@@ -85,7 +79,7 @@ export const postLogin = catchAsync(async (req, res) => {
 		message: 'user login',
 		data: { user: foundUser.toJSON() },
 	});
-	return res.redirect('/');
+	return res.sendStatus(200);
 });
 
 export const showProfile = catchAsync(async (req, res) => {
@@ -125,15 +119,15 @@ export const saveUserChange = catchAsync(async (req, res) => {
 	const user = await User.findById(req.session.user.id);
 	// 변경된 정보 없는 경우
 	if (user.nickname === nickname && user.name === name && user.email === email) {
-		return res.redirect(`/users/${user.id}`);
+		return res.sendStatus(200);
 	}
 	const usedNickname = await User.findOne({ nickname });
 	if (usedNickname !== null && user.nickname !== nickname) {
-		return res.render('edit-profile', { pageTitle: '프로필 수정', errorMsg: '사용중인 닉네임입니다.' });
+		return res.status(409).json({ type: 'nickname', msg: '사용중인 닉네임입니다.' });
 	}
 	const usedEmail = await User.findOne({ email });
 	if (usedEmail !== null && user.email !== email) {
-		return res.render('edit-profile', { pageTitle: '프로필 수정', errorMsg: '사용중인 이메일입니다.' });
+		return res.status(409).json({ type: 'email', msg: '이미 가입된 이메일입니다.' })
 	}
 	if (user.email !== email) {
 		user.email_auth = false;
@@ -148,5 +142,5 @@ export const saveUserChange = catchAsync(async (req, res) => {
 		data: { user: user.toJSON() },
 	});
 	req.session.user = getUserSessionFormat(user);
-	return res.redirect(`/users/${user.id}`);
+	return res.sendStatus(200);
 });

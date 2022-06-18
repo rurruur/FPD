@@ -14,12 +14,13 @@ export const showHome = catchAsync(async (req, res) => {
 export const postUpload = catchAsync(async (req, res) => {
 	const { title, content } = req.body;
 	const { id } = req.session.user;
+	console.log(title, content, id);
 	const post = await Post.create({
 		title,
 		content,
 		writer: id,
 	});
-	return res.redirect(`/posts/${post.id}`);
+	return res.status(201).json({ id: post.id });
 });
 
 export const showPost = catchAsync(async (req, res) => {

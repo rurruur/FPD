@@ -1,9 +1,14 @@
 extends layout 
 
 block content 
-	form(action="", method="post") 
+	form.upload-form(action="", method="post") 
 		label(for="title") 제목
 		input(type="text", name="title", id="title", placeholder="제목", required)
+		small.error-msg
 		label(for="content") 내용
 		textarea(name="content", cols="30", rows="10", id="content", required) 
+		small.error-msg
 		button(type="submit") 등록
+
+block script 
+	script(src="/static/js/upload.js")

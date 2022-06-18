@@ -7,6 +7,10 @@ module.exports = {
 	entry: {
 		main: JS_PATH + 'main.js',
 		post: JS_PATH + 'post.js',
+		join: JS_PATH + 'join.js',
+		profile: JS_PATH + 'profile.js',
+		upload: JS_PATH + 'upload.js',
+		login: JS_PATH + 'login.js',
 	},
 	mode: "development",
 	watch: true,

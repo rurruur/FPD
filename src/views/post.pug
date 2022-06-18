@@ -8,13 +8,12 @@ block content
 				button.post__del-btn.post__btn 삭제
 		.meta
 			if post.writer
-				a(href=`/users/${post.writer.id}`)
 					small=post.writer.nickname
 			else 
 				small 탈퇴한 사용자
 			small.createdAt=post.createdAt
 			small 조회수 #{post.views}
-		p=post.content
+		p #{post.content}
 	div.post__comments
 		form.post__comment-form#commentForm
 			textarea(cols="30", rows="1", placeholder="댓글을 달아보세요.")
@@ -26,7 +25,6 @@ block content
 						i.fas.fa-comment
 						| 
 						if comment.writer
-							a(href=`/users/${comment.writer.id}`)
 								small=comment.writer.nickname
 						else 
 							small 탈퇴한 사용자

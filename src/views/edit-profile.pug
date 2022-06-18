@@ -2,11 +2,17 @@ extends layout
 
 block content 
 	small.error-msg #{errorMsg}
-	form(action="", method="post") 
+	form.profile-form(action="", method="post")
 		label(for="email") 이메일
-		input(type="text", name="email", id="email", placeholder="이메일", required, value=loggedInUser.email)
+		small.error-msg
+		input(type="email", name="email", id="email", placeholder="이메일", required, value=loggedInUser.email)
 		label(for="name") 이름
 		input(type="text", name="name", id="name", placeholder="이름", required, value=loggedInUser.name)
+		small.error-msg
 		label(for="nickname") 별명
 		input(type="text", name="nickname", id="nickname", placeholder="별명", required, value=loggedInUser.nickname)
+		small.error-msg
 		button(type="submit") 저장
+
+block script 
+	script(src="/static/js/profile.js")

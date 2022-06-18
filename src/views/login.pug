@@ -2,10 +2,13 @@ extends layout
 
 block content 
 	.login-form
-		small.error-msg #{errorMsg}
 		form(action="", method="post")
 			label(for="email") 이메일
-			input(type="text", name="email", id="email", placeholder="이메일")
+			input(type="email", name="email", id="email", placeholder="이메일")
 			label(for="password") 비밀번호 
 			input(type="password", name="password", id="password", placeholder="비밀번호")
+			small.error-msg
 			button(type="submit") 로그인
+
+block script 
+	script(src="/static/js/login.js")

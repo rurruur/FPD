@@ -3,7 +3,6 @@ mixin post(info)
 		a(href=`/posts/${info.id}`)
 			h4=info.title
 		if info.writer
-			a(href=`/users/${info.writer.id}`)
 				small=info.writer.nickname
 		else 
 			small 탈퇴한 사용자
