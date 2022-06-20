@@ -11,3 +11,7 @@ block content
 	if (loggedInUser.id === user.id)
 		a(href=`${loggedInUser.id}/edit`)
 			button 수정
+		button.profile__del-btn 회원 탈퇴
+
+block script 
+	script(src="/static/js/profile.js") 

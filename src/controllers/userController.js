@@ -100,7 +100,8 @@ export const showEditProfile = (req, res) => {
 };
 
 export const logout = (req, res) => {
-	req.session.destroy();
+	req.session.loggedIn = false;
+	req.session.user = {};
 	return res.redirect('/login');
 };
 
@@ -142,5 +143,13 @@ export const saveUserChange = catchAsync(async (req, res) => {
 		data: { user: user.toJSON() },
 	});
 	req.session.user = getUserSessionFormat(user);
+	return res.sendStatus(200);
+});
+
+export const deleteUser = catchAsync(async (req, res) => {
+	const { id } = req.params;
+	req.session.loggedIn = false;
+	req.session.user = {};
+	await User.deleteOne({ _id: id });
 	return res.sendStatus(200);
 });

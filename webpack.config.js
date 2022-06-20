@@ -9,6 +9,7 @@ module.exports = {
 		post: JS_PATH + 'post.js',
 		join: JS_PATH + 'join.js',
 		profile: JS_PATH + 'profile.js',
+		editProfile: JS_PATH + 'editProfile.js',
 		upload: JS_PATH + 'upload.js',
 		login: JS_PATH + 'login.js',
 	},

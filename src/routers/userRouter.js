@@ -1,5 +1,5 @@
 import express from 'express';
-import { showProfile, showEditProfile, sendAuthMail, showCheckEmail, saveUserChange } from '../controllers/userController';
+import { showProfile, showEditProfile, sendAuthMail, showCheckEmail, saveUserChange, deleteUser } from '../controllers/userController';
 
 export const path = '/users';
 export const router = express.Router();
@@ -8,4 +8,4 @@ export const router = express.Router();
 router.get('/auth', sendAuthMail);
 router.get('/check-email', showCheckEmail);
 router.route('/:id([0-9a-f]{24})/edit').get(showEditProfile).post(saveUserChange);
-router.get('/:id([0-9a-f]{24})', showProfile);
+router.route('/:id([0-9a-f]{24})').get(showProfile).delete(deleteUser);
