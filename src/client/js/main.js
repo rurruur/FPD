@@ -9,7 +9,7 @@ const formatDate = date => {
 		const isoDate = date.toISOString().substring(0, 10);
 		const hour = date.getHours();
 		const minute = date.getMinutes();
-		return `${isoDate} ${hour}:${minute}`;
+		return `${isoDate} ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}`;
 	} else {
 		// 1분 60000, 1시간 3600000 하루 86400000
 		const diff = currentTime - createdTime;
