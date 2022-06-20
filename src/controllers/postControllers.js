@@ -14,7 +14,6 @@ export const showHome = catchAsync(async (req, res) => {
 export const postUpload = catchAsync(async (req, res) => {
 	const { title, content } = req.body;
 	const { id } = req.session.user;
-	console.log(title, content, id);
 	const post = await Post.create({
 		title,
 		content,
