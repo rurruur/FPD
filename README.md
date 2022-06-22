@@ -5,6 +5,7 @@
 - Express
 - MongoDB
 - Pug
+- AWS
 
 ### 목차
 - [기능](#기능)

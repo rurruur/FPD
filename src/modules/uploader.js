@@ -16,7 +16,7 @@ const awsUploader = multer({
 	},
 	storage: multerS3({
 		s3: s3,
-		bucket: 'fpdiary',
+		bucket: 'fpdiary/images',
 		acl: 'public-read',
 	})
 });
