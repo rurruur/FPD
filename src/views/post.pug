@@ -24,14 +24,12 @@ block content
 			each comment in comments.reverse()
 				li.post__comment
 					.comment__header
-						i.fas.fa-comment
-						| 
 						if comment.writer
-								small=comment.writer.nickname
+							small=comment.writer.nickname
 						else 
 							small 탈퇴한 사용자
 						if (comment.writer && loggedInUser.id === String(comment.writer.id))
-							button(data-id=comment.id).comment__del-btn.post__btn 삭제
+							button(data-id=comment.id).post__btn.comment__del-btn 삭제
 					small.createdAt=comment.createdAt
 					br
 					span=comment.text
