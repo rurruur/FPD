@@ -24,3 +24,17 @@ export const checkEmailAuth = (req, res, next) => {
 	else
 		return res.redirect('/users/check-email');
 };
+
+export const checkConfirmed = (req, res, next) => {
+	if (req.session.user.confirm)
+		next();
+	else
+		return res.redirect('/users/confirm');
+};
+
+export const checkAdmin = (req, res, next) => {
+	if (req.session.user.email === process.env.ADMIN)
+		next();
+	else
+		return res.redirect('/');
+}

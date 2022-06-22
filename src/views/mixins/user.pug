@@ -1,0 +1,10 @@
+mixin user(info)
+	.user-block
+		.user-info
+			span #{info.name}(#{info.nickname}) 
+			small.createdAt #{info.createdAt}
+			br
+			span #{info.email}(인증 #{info.email_auth})
+			br
+			span 가입 승인 #{info.confirm}
+		button(data-id=info.id).user__accept-btn 가입 승인

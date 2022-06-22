@@ -119,3 +119,16 @@ textarea {
 	max-width: 500px;
 	width: 100%;
 }
+
+.user-block {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 40px;
+	.user__accept-btn {
+		width: 100px;
+		font-size: 15px;
+		padding: auto 0px;
+		margin: 0;
+		align-self: center;
+	}
+}
