@@ -4,8 +4,12 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
+    "start": "node build/app.js",
+    "build": "npm run build:server && npm run build:assets",
+    "build:server": "babel src -d build --ignore 'src/client'",
+    "build:assets": "webpack --mode=production",
     "dev:server": "nodemon",
-    "dev:assets": "webpack --config webpack.config.js"
+    "dev:assets": "webpack --mode=development -w"
   },
   "repository": {
     "type": "git",
@@ -32,6 +36,7 @@
     "tracer": "^1.1.5"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
     "@babel/core": "^7.18.0",
     "@babel/node": "^7.17.10",
     "@babel/preset-env": "^7.18.0",
