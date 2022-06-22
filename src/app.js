@@ -11,6 +11,7 @@ import logger from './modules/logger';
 import { errorHandler } from './modules/error';
 
 const app = express();
+const port = process.env.PORT | 4242
 
 app.set('views', process.cwd() + '/src/views');
 app.set('view engine', 'pug');
@@ -35,4 +36,4 @@ app.use((req, res, next) => {
 app.use(router.path, router.router);
 app.use(errorHandler);
 
-app.listen(process.env.PORT, () => console.log(`🚀 Server listening on http://localhost:${process.env.PORT}`));
+app.listen(port, () => console.log(`🚀 Server listening on http://localhost:${port}`));
