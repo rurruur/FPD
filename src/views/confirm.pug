@@ -1,4 +1,7 @@
 extends layout 
 
-block content 
-	h4 관리자의 회원가입 승인이 필요합니다.
+block content
+	if loggedInUser.confirm
+		h4 승인 완료! 다시 로그인 해주세용
+	else
+		h4 관리자의 회원가입 승인이 필요합니다.
