@@ -131,3 +131,21 @@ textarea {
 		align-self: center;
 	}
 }
+
+.upload-form {
+	.upload__img {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		margin-bottom: 20px;
+		input {
+			margin: 0;
+		}
+		i {
+			font-size: 30px;
+			margin: 0;
+			color: #73828C;
+			cursor: pointer;
+		}
+	}
+}

@@ -16,7 +16,7 @@ export const postUpload = catchAsync(async (req, res) => {
 	let { file: fileUrl } = req;
 	const { id } = req.session.user;
 	if (fileUrl) {
-		fileUrl = process.env.MODE === 'production' ? file.location : `/${file.path}`;
+		fileUrl = process.env.MODE === 'production' ? fileUrl.location : `/${fileUrl.path}`;
 	} else {
 		fileUrl = '';
 	}

@@ -1,4 +1,5 @@
 const uploadForm = document.querySelector('.upload-form');
+const imgCancelBtn = uploadForm.querySelector('.cancel-btn');
 
 const handleSubmitJoin = async e => {
 	const formData = new FormData(uploadForm);
@@ -25,4 +26,10 @@ const handleSubmitJoin = async e => {
 	}
 };
 
+const eraseImg = () => {
+	const img = uploadForm.querySelector('#img');
+	img.value = '';
+};
+
 uploadForm.addEventListener('submit', handleSubmitJoin);
+imgCancelBtn.addEventListener('click', eraseImg);

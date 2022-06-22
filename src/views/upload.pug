@@ -8,8 +8,9 @@ block content
 		label(for="content") 내용
 		textarea(name="content", cols="30", rows="10", id="content", required) 
 		small.error-msg
-		label(for="img")
-		input(type="file", accept="image/*,.pdf", id="img", name="img")
+		.upload__img
+			input(type="file", accept="image/*,.pdf", id="img", name="img")
+			i.fas.fa-window-close.cancel-btn
 		button(type="submit") 등록
 
 block script 
