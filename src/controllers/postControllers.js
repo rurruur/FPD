@@ -13,11 +13,13 @@ export const showHome = catchAsync(async (req, res) => {
 
 export const postUpload = catchAsync(async (req, res) => {
 	const { title, content } = req.body;
+	const { file } = req;
 	const { id } = req.session.user;
 	const post = await Post.create({
 		title,
 		content,
 		writer: id,
+		fileUrl: process.env.MODE === 'production' ? file.location : `/${file.path}`,
 	});
 	return res.status(201).json({ id: post.id });
 });

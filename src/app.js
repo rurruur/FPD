@@ -25,12 +25,8 @@ app.use(session({
 	store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
 }));
 app.use('/static', express.static('assets'));
+app.use("/uploads", express.static("uploads"));
 app.use(findAndLocalsUser);
-app.use((req, res, next) => {
-	const { method, path, url, query, headers: { cookie }, body } = req;
-	const request = { method, path, url, query, cookie, body };
-	next();
-});
 app.use(router.path, router.router);
 app.use(errorHandler);
 
