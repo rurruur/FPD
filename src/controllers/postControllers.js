@@ -13,13 +13,18 @@ export const showHome = catchAsync(async (req, res) => {
 
 export const postUpload = catchAsync(async (req, res) => {
 	const { title, content } = req.body;
-	const { file } = req;
+	let { file: fileUrl } = req;
 	const { id } = req.session.user;
+	if (fileUrl) {
+		fileUrl = process.env.MODE === 'production' ? file.location : `/${file.path}`;
+	} else {
+		fileUrl = '';
+	}
 	const post = await Post.create({
 		title,
 		content,
 		writer: id,
-		fileUrl: process.env.MODE === 'production' ? file.location : `/${file.path}`,
+		fileUrl,
 	});
 	return res.status(201).json({ id: post.id });
 });
@@ -33,6 +38,7 @@ export const showPost = catchAsync(async (req, res) => {
 		post.views += 1;
 		await post.save();
 	}
+	console.log(post);
 	return res.render('post', { pageTitle: post.title, post, comments });
 });
 
