@@ -1,6 +1,5 @@
 import User from "../models/User";
 import crypto from 'crypto';
-import logger from "../modules/logger";
 import { catchAsync } from "../modules/error";
 import { getUserSessionFormat } from "../modules/util";
 import { sendMail } from "../modules/sendMail";
@@ -35,11 +34,6 @@ export const postJoin = catchAsync(async (req, res) => {
 		password: hashedPass,
 		salt,
 	});
-	logger.info({
-		type: 'action',
-		message: 'user join',
-		data: { user: user.toJSON() },
-	});
 	sendMail(email);
 	return res.sendStatus(201);
 });
@@ -52,11 +46,6 @@ export const updateEmailAuth = catchAsync(async (req, res, next) => {
 		req.errorMsg = '사용자를 찾을 수 없습니다.';
 		throw new Error(req.errorMsg);
 	}
-	logger.info({
-		type: 'action',
-		message: 'user email auth',
-		data: { user: user.toJSON() },
-	});
 	if (req.session.user)
 		req.session.user.email_auth = true;
 	return res.redirect('/');
@@ -74,11 +63,6 @@ export const postLogin = catchAsync(async (req, res) => {
 	}
 	req.session.loggedIn = true;
 	req.session.user = getUserSessionFormat(foundUser);
-	logger.info({
-		type: 'action',
-		message: 'user login',
-		data: { user: foundUser.toJSON() },
-	});
 	return res.sendStatus(200);
 });
 
@@ -137,11 +121,6 @@ export const saveUserChange = catchAsync(async (req, res) => {
 	user.name = name;
 	user.nickname = nickname;
 	await user.save();
-	logger.info({
-		type: 'action',
-		message: 'user info change',
-		data: { user: user.toJSON() },
-	});
 	req.session.user = getUserSessionFormat(user);
 	return res.sendStatus(200);
 });
