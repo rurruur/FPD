@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser';
 import './db';
 import * as router from './routers/routes';
 import { findAndLocalsUser } from './modules/middlewares';
-import logger from './modules/logger';
 import { errorHandler } from './modules/error';
 
 const app = express();
@@ -30,7 +29,6 @@ app.use(findAndLocalsUser);
 app.use((req, res, next) => {
 	const { method, path, url, query, headers: { cookie }, body } = req;
 	const request = { method, path, url, query, cookie, body };
-	logger.info({ request });
 	next();
 });
 app.use(router.path, router.router);
