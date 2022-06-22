@@ -8,7 +8,7 @@ export const sendMail = email => {
 	const cryptoEmail =  encrypter.update(email, 'utf8', 'hex') + encrypter.final('hex');
 
 	let emailTemplate;
-	ejs.renderFile(path.resolve(process.cwd()+'/src/authMail.ejs'), { authUrl: `http://localhost:4242/auth/${cryptoEmail}` }, function (err, data) {
+	ejs.renderFile(path.resolve(process.cwd()+'/src/authMail.ejs'), { authUrl: `${process.env.URL}/auth/${cryptoEmail}` }, function (err, data) {
 		if (err) {
 			console.log(err);
 		} else {
