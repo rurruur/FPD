@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
 	nickname: { type: String, required: true, trim: true, unique: true },
 	email: { type: String, required: true, trim: true, unique: true },
 	email_auth: { type: Boolean, default: false },
+	confirm: { type: Boolean, default: false },
 	social_login: { type: Boolean, default: false },
 	password: { type: String },
 	salt : { type: String },

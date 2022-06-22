@@ -1,0 +1,10 @@
+extends layout 
+include mixins/user
+
+block content 
+	h1 Admin Page
+	each user in users 
+		+user(user)
+
+block script 
+	script(src="/static/js/admin.js")

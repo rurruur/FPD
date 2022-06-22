@@ -132,3 +132,7 @@ export const deleteUser = catchAsync(async (req, res) => {
 	await User.deleteOne({ _id: id });
 	return res.sendStatus(200);
 });
+
+export const shwoConfirm = (req, res) => {
+	return res.render('confirm', { pageTitle: '승인 필요' });
+};

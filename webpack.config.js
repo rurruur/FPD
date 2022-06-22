@@ -12,6 +12,7 @@ module.exports = {
 		editProfile: JS_PATH + 'editProfile.js',
 		upload: JS_PATH + 'upload.js',
 		login: JS_PATH + 'login.js',
+		admin: JS_PATH + 'admin.js',
 	},
 	plugins: [new MiniCssExtractPlugin({ filename: 'css/styles.css' })],
 	output: {
