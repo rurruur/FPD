@@ -13,6 +13,8 @@ block content
 				small 탈퇴한 사용자
 			small.createdAt=post.createdAt
 			small 조회수 #{post.views}
+		if (post.fileUrl)
+			img.post__img(src=post.fileUrl, alt="")
 		p #{post.content}
 	div.post__comments
 		form.post__comment-form#commentForm

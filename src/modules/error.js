@@ -1,5 +1,6 @@
 export const errorHandler = (err, req, res, next) => {
 	const { errorMsg } = req;
+	console.log(err);
 	res.render('404', { errorMsg });
 };
 

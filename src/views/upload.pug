@@ -1,13 +1,15 @@
 extends layout 
 
 block content 
-	form.upload-form(action="", method="post") 
+	form.upload-form(action="", method="post", enctype="multipart/form-data") 
 		label(for="title") 제목
 		input(type="text", name="title", id="title", placeholder="제목", required)
 		small.error-msg
 		label(for="content") 내용
 		textarea(name="content", cols="30", rows="10", id="content", required) 
 		small.error-msg
+		label(for="img")
+		input(type="file", accept="image/*,.pdf", id="img", name="img")
 		button(type="submit") 등록
 
 block script 

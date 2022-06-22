@@ -1,6 +1,7 @@
 const uploadForm = document.querySelector('.upload-form');
 
 const handleSubmitJoin = async e => {
+	const formData = new FormData(uploadForm);
 	e.preventDefault();
 	const errMsgArr = uploadForm.querySelectorAll('.error-msg');
 	for (msg of errMsgArr) {
@@ -15,14 +16,7 @@ const handleSubmitJoin = async e => {
 	else {
 		const result = await fetch(location.pathname, {
 			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				title,
-				content,
-			})
+			body: formData
 		});
 		if (result.status === 201) {
 			const id = (await result.json()).id;
