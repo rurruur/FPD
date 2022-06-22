@@ -10,7 +10,7 @@ import { findAndLocalsUser } from './modules/middlewares';
 import { errorHandler } from './modules/error';
 
 const app = express();
-const port = process.env.PORT | 4242
+const port = process.env.PORT || 4242;
 
 app.set('views', process.cwd() + '/src/views');
 app.set('view engine', 'pug');
