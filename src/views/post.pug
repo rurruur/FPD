@@ -31,7 +31,7 @@ block content
 						else 
 							small 탈퇴한 사용자
 						if (comment.writer && loggedInUser.id === String(comment.writer.id))
-							i.fas.fa-trash-alt.comment__del-btn.btn
+							i(data-id=comment.id).fas.fa-trash-alt.comment__del-btn.btn
 					small.createdAt=comment.createdAt
 					br
 					span=comment.text
