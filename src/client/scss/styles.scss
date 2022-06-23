@@ -77,8 +77,12 @@ textarea {
 		display: flex;
 		flex-direction: column;
 		margin: 0;
-		button {
-			align-self: flex-end;
+		div {
+			display: flex;
+			justify-content: space-between;
+			button {
+				align-self: flex-end;
+			}
 		}
 	}
 	.post__comment {
@@ -87,13 +91,10 @@ textarea {
 		margin-bottom: 20px;
 		list-style: none;
 		.comment__header {
-			height:fit-content;
-			display: flex;
-			align-items: baseline;
-			button {
-				margin: 0 10px;
-				width: 35px;
-				padding: 0;
+			i {
+				margin-left: 10px;
+				color: #1AB2E6;
+				cursor: pointer;
 			}
 		}
 	}
@@ -148,4 +149,11 @@ textarea {
 			cursor: pointer;
 		}
 	}
+}
+
+button:active {
+	background-color: #096f91;
+}
+.btn:active {
+	color: #096f91;
 }

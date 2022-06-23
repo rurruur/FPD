@@ -11,14 +11,22 @@ const deletePost = async () => {
 	}
 };
 
-const handleSubmit = async event => {
-	const text = textarea.value;
+const handleSubmit = async e => {
+	e.preventDefault();
+	const text = textarea.value.trim();
 	const postId = location.pathname;
-	await fetch(`/api${postId}/comment`, {
-		headers: { 'Content-Type': 'application/json' },
-		method: 'POST',
-		body: JSON.stringify({ text }),
-	});
+	const errMsg = commentForm.querySelector('.error-msg');
+	errMsg.innerText = '';
+	if (text === '')
+		errMsg.innerText = '댓글이 공백입니다.';
+	else {
+		await fetch(`/api${postId}/comment`, {
+			headers: { 'Content-Type': 'application/json' },
+			method: 'POST',
+			body: JSON.stringify({ text }),
+		});
+		window.location.reload();
+	}
 };
 
 const deleteComment = async (event) => {

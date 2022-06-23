@@ -19,7 +19,9 @@ block content
 	div.post__comments
 		form.post__comment-form#commentForm
 			textarea(cols="30", rows="1", placeholder="댓글을 달아보세요.")
-			button.post__btn 등록
+			div
+				small.error-msg
+				button.post__btn 등록
 		ul
 			each comment in comments.reverse()
 				li.post__comment
@@ -29,7 +31,7 @@ block content
 						else 
 							small 탈퇴한 사용자
 						if (comment.writer && loggedInUser.id === String(comment.writer.id))
-							button(data-id=comment.id).post__btn.comment__del-btn 삭제
+							i.fas.fa-trash-alt.comment__del-btn.btn
 					small.createdAt=comment.createdAt
 					br
 					span=comment.text

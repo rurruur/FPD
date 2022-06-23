@@ -38,7 +38,6 @@ export const showPost = catchAsync(async (req, res) => {
 		post.views += 1;
 		await post.save();
 	}
-	console.log(post);
 	return res.render('post', { pageTitle: post.title, post, comments });
 });
 
