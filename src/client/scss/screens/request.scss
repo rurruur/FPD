@@ -1,0 +1,15 @@
+.request-form {
+	display: flex;
+	max-width: 800px;
+	input {
+		margin: 0 !important;
+		padding: 12px 10px !important;
+	}
+	button {
+		font-size: 14px;
+		width: 65px;
+		padding: 0;
+		margin: 0;
+		margin-left: 10px;
+	}
+}

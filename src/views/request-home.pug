@@ -1,0 +1,20 @@
+extends layout 
+
+block content 
+	h3 건의사항
+	form.request-form(method="post")
+		input(type="text", name="title", placeholder="원하는 것을 말해보아요~", required)
+		button(type="submit") 제출
+	each request in requests 
+		div.post-block
+			if request.done
+				i.far.fa-check-square
+			else 
+				i.far.fa-square
+			| 
+			span=request.title
+			//- | 
+			//- if (loggedInUser.id === String(request.writer))
+			//- 	i(data-id=request.id).fas.fa-trash-alt
+			br
+			small.createdAt=request.createdAt
