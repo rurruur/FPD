@@ -1,7 +1,12 @@
 mixin post(info)
 	div.post-block
-		a(href=`/posts/${info.id}`)
-			h4=info.title
+		.post-title
+			a(href=`/posts/${info.id}`)
+				h4=info.title
+			.post-commentCount
+				i.far.fa-comment-dots
+				| 
+				small=info.commentCount
 		if info.writer
 				small=info.writer.nickname
 		else 

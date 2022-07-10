@@ -60,11 +60,17 @@ export const registerComment = catchAsync(async (req, res) => {
 		writer: userId,
 		post: postId,
 	});
+	const post = await Post.findById(postId);
+	post.commentCount += 1;
+	await post.save();
 	return res.sendStatus(201);
 });
 
 export const deleteComment = catchAsync(async (req, res) => {
 	const { commentId } = req.params;
-	await Comment.findByIdAndDelete(commentId);
+	const comment = await Comment.findByIdAndDelete(commentId);
+	const post = await Post.findById(comment.post);
+	post.commentCount -= 1;
+	await post.save();
 	return res.sendStatus(200);
 });

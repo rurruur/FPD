@@ -47,8 +47,16 @@ textarea {
 
 .post-block {
 	margin: 15px 0;
-	h4 {
-		margin: 0;
+	.post-title {
+		h4 {
+			margin: 0;
+			margin-right: 10px;
+		}
+		.post-commentCount {
+			opacity: 0.7;
+		}
+		display: flex;
+		align-items: baseline;
 	}
 }
 .post {
